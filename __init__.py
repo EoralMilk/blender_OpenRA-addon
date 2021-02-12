@@ -3,7 +3,7 @@ bl_info = {
     "name": "OpenRA Tools",
     "description": "Easily create OpenRA assets with Blender",
     "author": "Eoral Milk",
-    "version": (0, 0, 1),
+    "version": (0, 0, 2),
     "blender": (2, 90, 0),
     "location": "View3D",
     "warning": "This addon is still in development.插件还在开发中.",
