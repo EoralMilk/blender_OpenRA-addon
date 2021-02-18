@@ -1,4 +1,5 @@
 import bpy
+
 bl_info = {
     "name": "OpenRA Tools",
     "description": "Easily create OpenRA assets with Blender",
@@ -121,13 +122,33 @@ class ORA_OT_Render(bpy.types.Operator):
         # Rotation
         defRot = center.rotation_euler[2]
 
+        # Frame
+        start = context.scene.frame_start
+        end = context.scene.frame_end
+        if anim:
+            context.scene.frame_current = start
+
         for facing in range(faces):
             strfacing = '%03d' % facing
             RGBOs.file_slots[0].path = RGBOs_DefName + strfacing
             ShadowOs.file_slots[0].path = ShadowOs_DefName + strfacing
 
             # rendering
-            bpy.ops.render.render(animation=anim, use_viewport=True)
+            # pg.hotkey('ctrl', 'f12')
+            # lastfile = Path(RGBOs.base_path +
+            #                 ShadowOs.file_slots[0].path + frameEnd + '.png')
+            # while True:
+            #     if lastfile.is_file():
+            #         break
+            # bpy.ops.render.render(animation=anim, use_viewport=False)
+            if anim:
+                for i in range(end-start+1):
+                    context.scene.frame_current = start + i
+                    bpy.ops.render.render(animation=False, write_still=False,
+                                          use_viewport=False, layer="", scene="")
+            else:
+                bpy.ops.render.render(animation=False, write_still=False,
+                                      use_viewport=False, layer="", scene="")
 
             center.rotation_euler[2] += pi2/faces
 
